@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMP Knowledge Area Sorting Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+            width: 95%;
+            max-width: 1200px;
+        }
+        #columns-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+            min-height: 200px;
+        }
+        .game-column {
+            width: 24%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            margin-right: 10px;
+            background-color: #e0e0e0;
+            min-height: 200px;
+        }
+        .game-column:last-child {
+            margin-right: 0;
+        }
+        .game-column h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        #card-box {
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            background-color: #e0e0e0;
+            margin-top: 20px;
+            width: 100%;
+            min-height: 200px;
+        }
+        #card-box h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .card {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #81c784;
+            color: white;
+            border-radius: 8px;
+            cursor: grab;
+            draggable: true;
+            font-size: 0.9em;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .card:active {
+            cursor: grabbing;
+        }
+        .card.dragged {
+             opacity: 0.5;
+             border: 2px dashed #333;
+        }
+        #reset-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+            width: 150px;
+            align-self: center;
+        }
+        #reset-button:hover {
+            background-color: #45a049;
+        }
+        #message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .show-message {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            #columns-container {
+                flex-direction: column;
+            }
+            .game-column {
+                width: 100%;
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+              #card-box{
+                 width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="columns-container">
+            <div class="game-column" data-knowledge-area="Integration Management">
+                <h2>Integration Management</h2>
+            </div>
+            <div class="game-column" data-knowledge-area="Scope Management">
+                <h2>Scope Management</h2>
+            </div>
+            <div class="game-column" data-knowledge-area="Schedule Management">
+                <h2>Schedule Management</h2>
+            </div>
+            <div class="game-column" data-knowledge-area="Cost Management">
+                <h2>Cost Management</h2>
+            </div>
+        </div>
+        <div id="card-box">
+            <h2>Unsorted Items</h2>
+        </div>
+        <button id="reset-button">Reset Game</button>
+        <div id="message-box"></div>
+    </div>
+    <script>
+       const knowledgeAreaData = [
+            { knowledgeArea: "Integration Management", processGroup: "Initiating", processName: "Develop Project Charter" },
+            { knowledgeArea: "Integration Management", processGroup: "Planning", processName: "Develop Project Management Plan" },
+            { knowledgeArea: "Integration Management", processGroup: "Executing", processName: "Direct and Manage Project Work" },
+            { knowledgeArea: "Integration Management", processGroup: "Executing", processName: "Manage Project Knowledge" },
+            { knowledgeArea: "Integration Management", processGroup: "Monitoring and Controlling", processName: "Monitor and Control Project Work" },
+            { knowledgeArea: "Integration Management", processGroup: "Monitoring and Controlling", processName: "Perform Integrated Change Control" },
+            { knowledgeArea: "Integration Management", processGroup: "Closing", processName: "Close Project or Phase" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Plan Scope Management" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Collect Requirements" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Define Scope" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Create WBS" },
+            { knowledgeArea: "Scope Management", processGroup: "Monitoring and Controlling", processName: "Validate Scope" },
+            { knowledgeArea: "Scope Management", processGroup: "Monitoring and Controlling", processName: "Control Scope" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Plan Schedule Management" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Define Activities" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Sequence Activities" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Estimate Activity Durations" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Develop Schedule" },
+            { knowledgeArea: "Schedule Management", processGroup: "Monitoring and Controlling", processName: "Control Schedule" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Plan Cost Management" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Estimate Costs" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Determine Budget" },
+            { knowledgeArea: "Cost Management", processGroup: "Monitoring and Controlling", processName: "Control Costs" },
+            { knowledgeArea: "Quality Management", processGroup: "Planning", processName: "Plan Quality Management" },
+            { knowledgeArea: "Quality Management", processGroup: "Executing", processName: "Manage Quality" },
+            { knowledgeArea: "Quality Management", processGroup: "Monitoring and Controlling", processName: "Control Quality" },
+            { knowledgeArea: "Resource Management", processGroup: "Planning", processName: "Plan Resource Management" },
+            { knowledgeArea: "Resource Management", processGroup: "Planning", processName: "Estimate Activity Resources" },
+            { knowledgeArea: "Resource Management", processGroup: "Acquiring", processName: "Acquire Resources" },
+            { knowledgeArea: "Resource Management", processGroup: "Executing", processName: "Develop Team" },
+            { knowledgeArea: "Resource Management", processGroup: "Executing", processName: "Manage Team" },
+            { knowledgeArea: "Resource Management", processGroup: "Monitoring and Controlling", processName: "Control Resources" },
+            { knowledgeArea: "Communications Management", processGroup: "Planning", processName: "Plan Communications Management" },
+            { knowledgeArea: "Communications Management", processGroup: "Executing", processName: "Manage Communications" },
+            { knowledgeArea: "Communications Management", processGroup: "Monitoring and Controlling", processName: "Monitor Communications" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Plan Risk Management" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Identify Risks" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Perform Qualitative Risk Analysis" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Perform Quantitative Risk Analysis" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Plan Risk Responses" },
+            { knowledgeArea: "Risk Management", processGroup: "Executing", processName: "Implement Risk Responses" },
+            { knowledgeArea: "Risk Management", processGroup: "Monitoring and Controlling", processName: "Monitor Risks" },
+            { knowledgeArea: "Procurement Management", processGroup: "Planning", processName: "Plan Procurement Management" },
+            { knowledgeArea: "Procurement Management", processGroup: "Conducting", processName: "Conduct Procurements" },
+            { knowledgeArea: "Procurement Management", processGroup: "Monitoring and Controlling", processName: "Control Procurements" },
+            { knowledgeArea: "Procurement Management", processGroup: "Closing", processName: "Close Procurements" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Initiating", processName: "Identify Stakeholders" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Planning", processName: "Plan Stakeholder Engagement" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Executing", processName: "Manage Stakeholder Engagement" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Monitoring and Controlling", processName: "Monitor Stakeholder Engagement" },
+        ];
+
+        const knowledgeAreas = ["Integration Management", "Scope Management", "Schedule Management", "Cost Management"];
+
+        let draggedCard = null;
+        let gameLocked = false;
+
+        const columnsContainer = document.getElementById('columns-container');
+        const cardBox = document.getElementById('card-box');
+        const resetButton = document.getElementById('reset-button');
+        const messageBox = document.getElementById('message-box');
+
+        resetButton.addEventListener('click', resetGame);
+
+        function createGameBoard() {
+            cardBox.innerHTML = '<h2>Unsorted Items</h2>';
+            columnsContainer.querySelectorAll('.game-column').forEach(column => {
+                column.innerHTML = `<h2>${column.dataset.knowledgeArea}</h2>`;
+                column.addEventListener('dragover', allowDrop);
+                column.addEventListener('drop', handleDrop);
+            });
+
+            const shuffledData = shuffleArray(knowledgeAreaData);
+            shuffledData.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.textContent = item.processName;
+                card.dataset.knowledgeArea = item.knowledgeArea;
+                card.dataset.processGroup = item.processGroup;
+                card.draggable = true;
+                card.addEventListener('dragstart', handleDragStart);
+                cardBox.appendChild(card);
+            });
+        }
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+         function handleDragStart(event) {
+            draggedCard = this;
+            this.classList.add('dragged');
+            event.dataTransfer.effectAllowed = 'move';
+        }
+
+        function allowDrop(event) {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            if (gameLocked) return;
+
+            if (draggedCard.dataset.knowledgeArea === this.dataset.knowledgeArea) {
+                this.appendChild(draggedCard);
+                draggedCard.classList.remove('dragged');
+                draggedCard = null;
+                if (cardBox.children.length === 1) {
+                    showMessage('Congratulations! You won!');
+                    gameLocked = true;
+                }
+            } else {
+                cardBox.appendChild(draggedCard);
+                draggedCard.classList.remove('dragged');
+                draggedCard = null;
+                showMessage('Incorrect! Card moved back to unsorted.');
+            }
+        }
+
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.classList.add('show-message');
+            setTimeout(() => {
+                messageBox.classList.remove('show-message');
+            }, 3000);
+        }
+
+        function resetGame() {
+            gameLocked = false;
+            createGameBoard();
+        }
+
+        createGameBoard();
+    </script>
+</body>
+</html>
