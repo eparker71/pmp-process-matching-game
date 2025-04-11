@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMP Knowledge Area Matching Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        #card-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 120px);
+            grid-gap: 10px;
+            margin-bottom: 20px;
+        }
+        .card {
+            width: 120px;
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+        .card-front {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .card-back {
+            background-color: #81c784;
+            color: white;
+            transform: rotateY(180deg);
+        }
+        .card.matched .card-front,
+        .card.matched .card-back {
+            background-color: #81c784;
+            color: #81c784;
+        }
+        #reset-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+        #reset-button:hover {
+            background-color: #45a049;
+        }
+        #message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .show-message {
+            opacity: 1;
+        }
+        @media (max-width: 600px) {
+            #card-grid {
+                grid-template-columns: repeat(2, 120px);
+            }
+            .card {
+                width: 100px;
+                height: 100px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="card-grid"></div>
+        <button id="reset-button">Reset Game</button>
+        <div id="message-box"></div>
+    </div>
+    <script>
+        const knowledgeAreaData = [
+            { knowledgeArea: "Integration Management", processGroup: "Initiating", processName: "Develop Project Charter" },
+            { knowledgeArea: "Integration Management", processGroup: "Planning", processName: "Develop Project Management Plan" },
+            { knowledgeArea: "Integration Management", processGroup: "Executing", processName: "Direct and Manage Project Work" },
+            { knowledgeArea: "Integration Management", processGroup: "Executing", processName: "Manage Project Knowledge" },
+            { knowledgeArea: "Integration Management", processGroup: "Monitoring and Controlling", processName: "Monitor and Control Project Work" },
+            { knowledgeArea: "Integration Management", processGroup: "Monitoring and Controlling", processName: "Perform Integrated Change Control" },
+            { knowledgeArea: "Integration Management", processGroup: "Closing", processName: "Close Project or Phase" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Plan Scope Management" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Collect Requirements" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Define Scope" },
+            { knowledgeArea: "Scope Management", processGroup: "Planning", processName: "Create WBS" },
+            { knowledgeArea: "Scope Management", processGroup: "Monitoring and Controlling", processName: "Validate Scope" },
+            { knowledgeArea: "Scope Management", processGroup: "Monitoring and Controlling", processName: "Control Scope" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Plan Schedule Management" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Define Activities" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Sequence Activities" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Estimate Activity Durations" },
+            { knowledgeArea: "Schedule Management", processGroup: "Planning", processName: "Develop Schedule" },
+            { knowledgeArea: "Schedule Management", processGroup: "Monitoring and Controlling", processName: "Control Schedule" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Plan Cost Management" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Estimate Costs" },
+            { knowledgeArea: "Cost Management", processGroup: "Planning", processName: "Determine Budget" },
+            { knowledgeArea: "Cost Management", processGroup: "Monitoring and Controlling", processName: "Control Costs" },
+            { knowledgeArea: "Quality Management", processGroup: "Planning", processName: "Plan Quality Management" },
+            { knowledgeArea: "Quality Management", processGroup: "Executing", processName: "Manage Quality" },
+            { knowledgeArea: "Quality Management", processGroup: "Monitoring and Controlling", processName: "Control Quality" },
+            { knowledgeArea: "Resource Management", processGroup: "Planning", processName: "Plan Resource Management" },
+            { knowledgeArea: "Resource Management", processGroup: "Planning", processName: "Estimate Activity Resources" },
+            { knowledgeArea: "Resource Management", processGroup: "Acquiring", processName: "Acquire Resources" },
+            { knowledgeArea: "Resource Management", processGroup: "Executing", processName: "Develop Team" },
+            { knowledgeArea: "Resource Management", processGroup: "Executing", processName: "Manage Team" },
+            { knowledgeArea: "Resource Management", processGroup: "Monitoring and Controlling", processName: "Control Resources" },
+            { knowledgeArea: "Communications Management", processGroup: "Planning", processName: "Plan Communications Management" },
+            { knowledgeArea: "Communications Management", processGroup: "Executing", processName: "Manage Communications" },
+            { knowledgeArea: "Communications Management", processGroup: "Monitoring and Controlling", processName: "Monitor Communications" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Plan Risk Management" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Identify Risks" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Perform Qualitative Risk Analysis" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Perform Quantitative Risk Analysis" },
+            { knowledgeArea: "Risk Management", processGroup: "Planning", processName: "Plan Risk Responses" },
+            { knowledgeArea: "Risk Management", processGroup: "Executing", processName: "Implement Risk Responses" },
+            { knowledgeArea: "Risk Management", processGroup: "Monitoring and Controlling", processName: "Monitor Risks" },
+            { knowledgeArea: "Procurement Management", processGroup: "Planning", processName: "Plan Procurement Management" },
+            { knowledgeArea: "Procurement Management", processGroup: "Conducting", processName: "Conduct Procurements" },
+            { knowledgeArea: "Procurement Management", processGroup: "Monitoring and Controlling", processName: "Control Procurements" },
+            { knowledgeArea: "Procurement Management", processGroup: "Closing", processName: "Close Procurements" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Initiating", processName: "Identify Stakeholders" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Planning", processName: "Plan Stakeholder Engagement" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Executing", processName: "Manage Stakeholder Engagement" },
+            { knowledgeArea: "Stakeholder Management", processGroup: "Monitoring and Controlling", processName: "Monitor Stakeholder Engagement" },
+        ];
+
+        let flippedCards = [];
+        let moves = 0;
+        let gameLocked = false;
+
+        const cardGrid = document.getElementById('card-grid');
+        const resetButton = document.getElementById('reset-button');
+        const messageBox = document.getElementById('message-box');
+
+        resetButton.addEventListener('click', resetGame);
+
+        function createGameBoard() {
+            const shuffledData = shuffleArray(knowledgeAreaData);
+            cardGrid.innerHTML = '';
+            flippedCards = [];
+            moves = 0;
+            gameLocked = false;
+
+            shuffledData.forEach(item => {
+                const card = document.createElement('div');
+                card.classList.add('card');
+                card.dataset.knowledgeArea = item.knowledgeArea;
+                card.dataset.processGroup = item.processGroup;
+                card.dataset.processName = item.processName;
+
+                const cardInner = document.createElement('div');
+                cardInner.classList.add('card-inner');
+
+                const cardFront = document.createElement('div');
+                cardFront.classList.add('card-front');
+                cardFront.textContent = item.knowledgeArea;
+
+                const cardBack = document.createElement('div');
+                cardBack.classList.add('card-back');
+                cardBack.textContent = item.processName;
+
+                cardInner.appendChild(cardFront);
+                cardInner.appendChild(cardBack);
+                card.appendChild(cardInner);
+                card.addEventListener('click', flipCard);
+                cardGrid.appendChild(card);
+            });
+        }
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function flipCard() {
+            if (gameLocked || this.classList.contains('flipped') || flippedCards.length >= 2) return;
+
+            this.classList.add('flipped');
+            flippedCards.push(this);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                gameLocked = true;
+                const [card1, card2] = flippedCards;
+
+                if (card1.dataset.knowledgeArea === card2.dataset.knowledgeArea) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    flippedCards = [];
+                    gameLocked = false;
+                    if (document.querySelectorAll('.card.matched').length === knowledgeAreaData.length) {
+                        showMessage('Congratulations! You won!');
+                    }
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        flippedCards = [];
+                        gameLocked = false;
+                    }, 1000);
+                }
+            }
+        }
+
+        function showMessage(message) {
+            messageBox.textContent = message;
+            messageBox.classList.add('show-message');
+            setTimeout(() => {
+                messageBox.classList.remove('show-message');
+            }, 3000);
+        }
+
+        function resetGame() {
+            createGameBoard();
+        }
+
+        createGameBoard();
+    </script>
+</body>
+</html>
