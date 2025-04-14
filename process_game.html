@@ -50,9 +50,6 @@
             text-align: center;
         }
         #process-bank {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
             margin-top: 1rem;
             padding: 1rem;
             background-color: #edf2f7;
@@ -73,13 +70,21 @@
             font-weight: 600;
             margin-bottom: 0.25rem;
             color: #4a5568;
+            width: 100%;
+        }
+        .process-group-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+            width: 100%;
         }
          .correct-drop {
-            background-color: #f0fdf4; /* Light green for correct drop */
+            background-color: #f0fdf4;
             border-color: #15803d;
         }
         .incorrect-drop {
-            background-color: #fee2e2; /* Light red for incorrect drop */
+            background-color: #fee2e2;
             border-color: #b91c1c;
         }
     </style>
@@ -123,156 +128,166 @@
         <div id="process-bank">
             <h2>Drag Processes to Knowledge Areas</h2>
             <div class="process-group-header">Initiating Process Group</div>
-            <div class="process-box" data-process="Develop Project Charter" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-file-signature"></i> Develop Project Charter
-            </div>
-            <div class="process-box" data-process="Identify Stakeholders" data-knowledge-area="stakeholder" draggable="true">
-                <i class="fas fa-users"></i> Identify Stakeholders
+            <div class="process-group-row">
+                <div class="process-box" data-process="Develop Project Charter" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-file-signature"></i> Develop Project Charter
+                </div>
+                <div class="process-box" data-process="Identify Stakeholders" data-knowledge-area="stakeholder" draggable="true">
+                    <i class="fas fa-users"></i> Identify Stakeholders
+                </div>
             </div>
             <div class="process-group-header">Planning Process Group</div>
-            <div class="process-box" data-process="Develop Project Management Plan" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-file-alt"></i> Develop Project Management Plan
-            </div>
-            <div class="process-box" data-process="Plan Scope Management" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-ruler-combined"></i> Plan Scope Management
-            </div>
-            <div class="process-box" data-process="Collect Requirements" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-list-alt"></i> Collect Requirements
-            </div>
-            <div class="process-box" data-process="Define Scope" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-project-diagram"></i> Define Scope
-            </div>
-            <div class="process-box" data-process="Create WBS" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-sitemap"></i> Create WBS
-            </div>
-            <div class="process-box" data-process="Plan Schedule Management" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-calendar-alt"></i> Plan Schedule Management
-            </div>
-            <div class="process-box" data-process="Define Activities" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-tasks"></i> Define Activities
-            </div>
-            <div class="process-box" data-process="Sequence Activities" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-sort-numeric-up"></i> Sequence Activities
-            </div>
-            <div class="process-box" data-process="Estimate Activity Durations" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-clock"></i> Estimate Activity Durations
-            </div>
-            <div class="process-box" data-process="Develop Schedule" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-calendar-check"></i> Develop Schedule
-            </div>
-            <div class="process-box" data-process="Plan Cost Management" data-knowledge-area="cost" draggable="true">
-                <i class="fas fa-file-invoice-dollar"></i> Plan Cost Management
-            </div>
-            <div class="process-box" data-process="Estimate Costs" data-knowledge-area="cost" draggable="true">
-                <i class="fas fa-coins"></i> Estimate Costs
-            </div>
-            <div class="process-box" data-process="Determine Budget" data-knowledge-area="cost" draggable="true">
-                <i class="fas fa-wallet"></i> Determine Budget
-            </div>
-            <div class="process-box" data-process="Plan Quality Management" data-knowledge-area="quality" draggable="true">
-                <i class="fas fa-clipboard-check"></i> Plan Quality Management
-            </div>
-            <div class="process-box" data-process="Plan Resource Management" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-users-cog"></i> Plan Resource Management
-            </div>
-            <div class="process-box" data-process="Estimate Activity Resources" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-boxes"></i> Estimate Activity Resources
-            </div>
-            <div class="process-box" data-process="Plan Communications Management" data-knowledge-area="communications" draggable="true">
-                <i class="fas fa-envelope-open-text"></i> Plan Communications Management
-            </div>
-            <div class="process-box" data-process="Plan Risk Management" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-umbrella"></i> Plan Risk Management
-            </div>
-            <div class="process-box" data-process="Identify Risks" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-exclamation-triangle"></i> Identify Risks
-            </div>
-            <div class="process-box" data-process="Perform Qualitative Risk Analysis" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-filter"></i> Perform Qualitative Risk Analysis
-            </div>
-            <div class="process-box" data-process="Perform Quantitative Risk Analysis" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-chart-bar"></i> Perform Quantitative Risk Analysis
-            </div>
-            <div class="process-box" data-process="Plan Risk Responses" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-shield-alt"></i> Plan Risk Responses
-            </div>
-            <div class="process-box" data-process="Plan Procurement Management" data-knowledge-area="procurement" draggable="true">
-                <i class="fas fa-file-contract"></i> Plan Procurement Management
-            </div>
-            <div class="process-box" data-process="Plan Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
-                <i class="fas fa-handshake"></i> Plan Stakeholder Engagement
+            <div class="process-group-row">
+                <div class="process-box" data-process="Develop Project Management Plan" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-file-alt"></i> Develop Project Management Plan
+                </div>
+                <div class="process-box" data-process="Plan Scope Management" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-ruler-combined"></i> Plan Scope Management
+                </div>
+                <div class="process-box" data-process="Collect Requirements" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-list-alt"></i> Collect Requirements
+                </div>
+                <div class="process-box" data-process="Define Scope" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-project-diagram"></i> Define Scope
+                </div>
+                <div class="process-box" data-process="Create WBS" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-sitemap"></i> Create WBS
+                </div>
+                <div class="process-box" data-process="Plan Schedule Management" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-calendar-alt"></i> Plan Schedule Management
+                </div>
+                <div class="process-box" data-process="Define Activities" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-tasks"></i> Define Activities
+                </div>
+                <div class="process-box" data-process="Sequence Activities" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-sort-numeric-up"></i> Sequence Activities
+                </div>
+                <div class="process-box" data-process="Estimate Activity Durations" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-clock"></i> Estimate Activity Durations
+                </div>
+                <div class="process-box" data-process="Develop Schedule" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-calendar-check"></i> Develop Schedule
+                </div>
+                <div class="process-box" data-process="Plan Cost Management" data-knowledge-area="cost" draggable="true">
+                    <i class="fas fa-file-invoice-dollar"></i> Plan Cost Management
+                </div>
+                <div class="process-box" data-process="Estimate Costs" data-knowledge-area="cost" draggable="true">
+                    <i class="fas fa-coins"></i> Estimate Costs
+                </div>
+                <div class="process-box" data-process="Determine Budget" data-knowledge-area="cost" draggable="true">
+                    <i class="fas fa-wallet"></i> Determine Budget
+                </div>
+                <div class="process-box" data-process="Plan Quality Management" data-knowledge-area="quality" draggable="true">
+                    <i class="fas fa-clipboard-check"></i> Plan Quality Management
+                </div>
+                <div class="process-box" data-process="Plan Resource Management" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-users-cog"></i> Plan Resource Management
+                </div>
+                <div class="process-box" data-process="Estimate Activity Resources" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-boxes"></i> Estimate Activity Resources
+                </div>
+                <div class="process-box" data-process="Plan Communications Management" data-knowledge-area="communications" draggable="true">
+                    <i class="fas fa-envelope-open-text"></i> Plan Communications Management
+                </div>
+                <div class="process-box" data-process="Plan Risk Management" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-umbrella"></i> Plan Risk Management
+                </div>
+                <div class="process-box" data-process="Identify Risks" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-exclamation-triangle"></i> Identify Risks
+                </div>
+                <div class="process-box" data-process="Perform Qualitative Risk Analysis" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-filter"></i> Perform Qualitative Risk Analysis
+                </div>
+                <div class="process-box" data-process="Perform Quantitative Risk Analysis" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-chart-bar"></i> Perform Quantitative Risk Analysis
+                </div>
+                <div class="process-box" data-process="Plan Risk Responses" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-shield-alt"></i> Plan Risk Responses
+                </div>
+                <div class="process-box" data-process="Plan Procurement Management" data-knowledge-area="procurement" draggable="true">
+                    <i class="fas fa-file-contract"></i> Plan Procurement Management
+                </div>
+                <div class="process-box" data-process="Plan Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
+                    <i class="fas fa-handshake"></i> Plan Stakeholder Engagement
+                </div>
             </div>
             <div class="process-group-header">Executing Process Group</div>
-            <div class="process-box" data-process="Direct and Manage Project Work" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-tasks"></i> Direct and Manage Project Work
-            </div>
-             <div class="process-box" data-process="Manage Project Knowledge" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-brain"></i>  Manage Project Knowledge
-            </div>
-            <div class="process-box" data-process="Manage Quality" data-knowledge-area="quality" draggable="true">
-                <i class="fas fa-check-circle"></i> Manage Quality
-            </div>
-            <div class="process-box" data-process="Acquire Resources" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-shopping-bag"></i> Acquire Resources
-            </div>
-            <div class="process-box" data-process="Develop Team" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-users"></i> Develop Team
-            </div>
-            <div class="process-box" data-process="Manage Team" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-user-friends"></i> Manage Team
-            </div>
-            <div class="process-box" data-process="Manage Communications" data-knowledge-area="communications" draggable="true">
-                <i class="fas fa-envelope"></i> Manage Communications
-            </div>
-            <div class="process-box" data-process="Implement Risk Responses" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-bolt"></i> Implement Risk Responses
-            </div>
-            <div class="process-box" data-process="Conduct Procurements" data-knowledge-area="procurement" draggable="true">
-                <i class="fas fa-briefcase"></i> Conduct Procurements
-            </div>
-            <div class="process-box" data-process="Manage Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
-                <i class="fas fa-comments"></i> Manage Stakeholder Engagement
+            <div class="process-group-row">
+                <div class="process-box" data-process="Direct and Manage Project Work" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-tasks"></i> Direct and Manage Project Work
+                </div>
+                <div class="process-box" data-process="Manage Project Knowledge" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-brain"></i>  Manage Project Knowledge
+                </div>
+                <div class="process-box" data-process="Manage Quality" data-knowledge-area="quality" draggable="true">
+                    <i class="fas fa-check-circle"></i> Manage Quality
+                </div>
+                <div class="process-box" data-process="Acquire Resources" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-shopping-bag"></i> Acquire Resources
+                </div>
+                <div class="process-box" data-process="Develop Team" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-users"></i> Develop Team
+                </div>
+                <div class="process-box" data-process="Manage Team" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-user-friends"></i> Manage Team
+                </div>
+                <div class="process-box" data-process="Manage Communications" data-knowledge-area="communications" draggable="true">
+                    <i class="fas fa-envelope"></i> Manage Communications
+                </div>
+                <div class="process-box" data-process="Implement Risk Responses" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-bolt"></i> Implement Risk Responses
+                </div>
+                <div class="process-box" data-process="Conduct Procurements" data-knowledge-area="procurement" draggable="true">
+                    <i class="fas fa-briefcase"></i> Conduct Procurements
+                </div>
+                <div class="process-box" data-process="Manage Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
+                    <i class="fas fa-comments"></i> Manage Stakeholder Engagement
+                </div>
             </div>
             <div class="process-group-header">Monitoring and Controlling Process Group</div>
-            <div class="process-box" data-process="Monitor and Control Project Work" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-tachometer-alt"></i> Monitor and Control Project Work
-            </div>
-            <div class="process-box" data-process="Perform Integrated Change Control" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-edit"></i> Perform Integrated Change Control
-            </div>
-            <div class="process-box" data-process="Validate Scope" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-check-double"></i> Validate Scope
-            </div>
-            <div class="process-box" data-process="Control Scope" data-knowledge-area="scope" draggable="true">
-                <i class="fas fa-expand-arrows-alt"></i> Control Scope
-            </div>
-            <div class="process-box" data-process="Control Schedule" data-knowledge-area="schedule" draggable="true">
-                <i class="fas fa-calendar-times"></i> Control Schedule
-            </div>
-            <div class="process-box" data-process="Control Costs" data-knowledge-area="cost" draggable="true">
-                <i class="fas fa-money-check-alt"></i> Control Costs
-            </div>
-            <div class="process-box" data-process="Control Quality" data-knowledge-area="quality" draggable="true">
-                <i class="fas fa-shield-check"></i> Control Quality
-            </div>
-            <div class="process-box" data-process="Control Resources" data-knowledge-area="resource" draggable="true">
-                <i class="fas fa-hand-paper"></i> Control Resources
-            </div>
-            <div class="process-box" data-process="Monitor Communications" data-knowledge-area="communications" draggable="true">
-                <i class="fas fa-wifi"></i> Monitor Communications
-            </div>
-            <div class="process-box" data-process="Monitor Risks" data-knowledge-area="risk" draggable="true">
-                <i class="fas fa-eye"></i> Monitor Risks
-            </div>
-            <div class="process-box" data-process="Control Procurements" data-knowledge-area="procurement" draggable="true">
-                <i class="fas fa-file-signature"></i> Control Procurements
-            </div>
-            <div class="process-box" data-process="Monitor Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
-                <i class="fas fa-bullhorn"></i> Monitor Stakeholder Engagement
+            <div class="process-group-row">
+                <div class="process-box" data-process="Monitor and Control Project Work" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-tachometer-alt"></i> Monitor and Control Project Work
+                </div>
+                <div class="process-box" data-process="Perform Integrated Change Control" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-edit"></i> Perform Integrated Change Control
+                </div>
+                <div class="process-box" data-process="Validate Scope" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-check-double"></i> Validate Scope
+                </div>
+                <div class="process-box" data-process="Control Scope" data-knowledge-area="scope" draggable="true">
+                    <i class="fas fa-expand-arrows-alt"></i> Control Scope
+                </div>
+                <div class="process-box" data-process="Control Schedule" data-knowledge-area="schedule" draggable="true">
+                    <i class="fas fa-calendar-times"></i> Control Schedule
+                </div>
+                <div class="process-box" data-process="Control Costs" data-knowledge-area="cost" draggable="true">
+                    <i class="fas fa-money-check-alt"></i> Control Costs
+                </div>
+                <div class="process-box" data-process="Control Quality" data-knowledge-area="quality" draggable="true">
+                    <i class="fas fa-shield-check"></i> Control Quality
+                </div>
+                <div class="process-box" data-process="Control Resources" data-knowledge-area="resource" draggable="true">
+                    <i class="fas fa-hand-paper"></i> Control Resources
+                </div>
+                <div class="process-box" data-process="Monitor Communications" data-knowledge-area="communications" draggable="true">
+                    <i class="fas fa-wifi"></i> Monitor Communications
+                </div>
+                <div class="process-box" data-process="Monitor Risks" data-knowledge-area="risk" draggable="true">
+                    <i class="fas fa-eye"></i> Monitor Risks
+                </div>
+                <div class="process-box" data-process="Control Procurements" data-knowledge-area="procurement" draggable="true">
+                    <i class="fas fa-file-signature"></i> Control Procurements
+                </div>
+                <div class="process-box" data-process="Monitor Stakeholder Engagement" data-knowledge-area="stakeholder" draggable="true">
+                    <i class="fas fa-bullhorn"></i> Monitor Stakeholder Engagement
+                </div>
             </div>
             <div class="process-group-header">Closing Process Group</div>
-            <div class="process-box" data-process="Close Project or Phase" data-knowledge-area="integration" draggable="true">
-                <i class="fas fa-door-closed"></i> Close Project or Phase
+            <div class="process-group-row">
+                <div class="process-box" data-process="Close Project or Phase" data-knowledge-area="integration" draggable="true">
+                    <i class="fas fa-door-closed"></i> Close Project or Phase
+                </div>
             </div>
         </div>
     </div>
